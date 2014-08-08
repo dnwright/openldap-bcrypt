@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -W -Wall -O2 -fomit-frame-pointer -funroll-loops
+CFLAGS = -W -Wall -O2 -fomit-frame-pointer -funroll-loops -fPIC
 
 all: bcrypt.a
 
@@ -8,7 +8,7 @@ test: bcrypt.c crypt_blowfish/crypt_blowfish.a
 	$(CC) -o bcrypt_test bcrypt.o crypt_blowfish/crypt_blowfish.a
 
 bcrypt.a: bcrypt.o crypt_blowfish/crypt_blowfish.a
-	ar r bcrypt.a bcrypt.o crypt_blowfish/*.o
+	ar r libbcrypt.a bcrypt.o crypt_blowfish/*.o
 
 bcrypt.o: bcrypt.c
 	$(CC) $(CFLAGS) -c bcrypt.c

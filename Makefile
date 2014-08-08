@@ -4,12 +4,11 @@ LDAP_SRC = ../../../..
 LDAP_BUILD = ../../../..
 LDAP_INC = -I$(LDAP_BUILD)/include -I$(LDAP_SRC)/include -I$(LDAP_SRC)/servers/slapd -I./libbcrypt
 LDAP_LIB = $(LDAP_BUILD)/libraries/libldap_r/libldap_r.la \
-	$(LDAP_BUILD)/libraries/liblber/liblber.la \
-	./libbcrypt/bcrypt.a
+	$(LDAP_BUILD)/libraries/liblber/liblber.la
 
 LIBTOOL = $(LDAP_BUILD)/libtool
 CC = gcc
-OPT = -g -O2 -Wall
+OPT = -g -O2 -Wall -fPIC
 #DEFS = -DSLAPD_BCRYPT_DEBUG
 
 INCS = $(LDAP_INC)
@@ -36,8 +35,8 @@ moduledir = $(libexecdir)$(ldap_subdir)
 all: $(PROGRAMS)
 
 pw-bcrypt.la: pw-bcrypt.lo libbcrypt/bcrypt.a
-	$(LIBTOOL) --mode=link $(CC) $(OPT) -version-info $(LTVER) \
-	-rpath $(moduledir) -module -o $@ $? $(LIBS)
+	$(LIBTOOL) --mode=link $(CC) $(OPT) -L./libbcrypt -version-info $(LTVER) \
+	-rpath $(moduledir) -module -o $@ -lbcrypt pw-bcrypt.lo $(LIBS)
 
 libbcrypt/bcrypt.a:
 	$(MAKE) -C libbcrypt
