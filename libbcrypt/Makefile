@@ -17,5 +17,5 @@ crypt_blowfish/crypt_blowfish.a:
 	$(MAKE) -C crypt_blowfish crypt_blowfish.a
 
 clean:
-	rm -f *.o bcrypt_test bcrypt.a *~ core
+	rm -f *.o bcrypt_test libbcrypt.a *~ core
 	$(MAKE) -C crypt_blowfish clean
